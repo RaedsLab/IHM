@@ -14,7 +14,19 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@string/auth_google_play_services_client_google_display_name"
-        android:textSize="@android:dimen/notification_large_icon_height"
-        />
+        android:text="Hello"
+        android:textSize="@android:dimen/notification_large_icon_height" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@android:drawable/ic_dialog_alert"
+        android:layout_marginLeft="@dimen/fab_margin"
+        android:layout_marginRight="@dimen/fab_margin"
+        android:layout_marginTop="78dp"
+        android:layout_below="@+id/detail_text"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
