@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Techniques</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="names_array">
+        <item>Dimitri Barbier</item>
+        <item>Napoléon Calvet</item>
+        <item>Maurice Blaise</item>
+        <item>Jean-Guy Aveline</item>
+        <item>Maximilien Bescond</item>
+        <item>Emmanuel Cochet</item>
+        <item>Pierre Vérany</item>
+        <item>Jean-Claude Gide</item>
+        <item>Patrick Ardouin</item>
+        <item>Charles Delafose</item>
+        <item>Julia Moreau</item>
+        <item>Marie Arceneaux</item>
+        <item>Charles Delafose</item>
+        <item>Pascaline Tourneur</item>
+        <item>Fabienne Gaumont</item>
+        <item>Lise Brosseau</item>
+        <item>Axelle Saunier</item>
+        <item>Coline Crozier</item>
+        <item>Juliette Chaufourier</item>
+        <item>Marinette Alard</item>
+        <item>Colette Barthélemy</item>
+    </string-array>
+    <string name="title_activity_detail">Detail</string>
+
+</resources>
