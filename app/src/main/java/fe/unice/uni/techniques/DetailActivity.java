@@ -4,6 +4,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
+import com.parse.Parse;
+import com.parse.ParseObject;
+
 public class DetailActivity extends AppCompatActivity {
 
     @Override
@@ -15,6 +18,8 @@ public class DetailActivity extends AppCompatActivity {
 
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+
     }
 
 }

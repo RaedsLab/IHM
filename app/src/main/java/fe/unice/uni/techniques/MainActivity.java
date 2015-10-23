@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SensorEventListener {
 
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private float initialY;
     private boolean isfirstRun = true;
     private float yThreshold = 2;
+
+    long startTime;
 
     private boolean isReternedToOriginalPosition = true;
     private int reachedScrollPosition = 0;
@@ -50,6 +53,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     private static final int SHAKE_THRESHOLD = 600;
     //
 
+    //Instructions
+    private String randomName, instructionText;
+    private boolean hadInstructions = false;
+
+    //
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,6 +69,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         //GET ALL NAMES FROM stings.xml
         names = getResources().getStringArray(R.array.names_array);
         Collections.shuffle(Arrays.asList(names));
+
+        /// INSTRUCTIONS
+        int idx = new Random().nextInt(names.length);
+        randomName = (names[idx]);
+        instructionText = "You need to find and delete '" + randomName + "' from the contact list. \n";
+        // if lucky get instructions
+        if (new Random().nextInt() % 2 == 0) {
+            hadInstructions = true;
+            instructionText += "You can scroll, or tilt the device to go through the list. \n";
+            instructionText += "You can click or swipe a contact name to delete it.\n";
+        }
+
+        TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+        instructionsTextView.setText(instructionText);
+
+        final Button clickButton = (Button) findViewById(R.id.btnStart);
+        clickButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+                instructionsTextView.setVisibility(View.GONE);
+                clickButton.setVisibility(View.GONE);
+
+                listView = (ListView) findViewById(R.id.namesList);
+                listView.setVisibility(View.VISIBLE);
+                startTime = System.currentTimeMillis();
+            }
+        });
 
 
         //SET ARRAY ADAPTER
@@ -72,11 +109,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listView.setOnItemClickListener(this);
 
         ///ACCEL
-        senSensorManager = (SensorManager)
-
-                getSystemService(Context.SENSOR_SERVICE);
+        senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
 
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+
+        listView.setVisibility(View.GONE); // or View.INVISIBLE as Jason Leung wrote
+
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
     }
@@ -90,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         ////
         Intent intent = new Intent(this, DetailActivity.class)
-                .putExtra(Intent.EXTRA_TEXT, ((TextView) view).getText());
+                .putExtra(Intent.EXTRA_TEXT, ((TextView) view).getText() + ":" + startTime+":"+randomName);
         startActivity(intent);
     }
 
