@@ -8,6 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.daimajia.swipe.SwipeLayout;
+
 /**
  * A placeholder fragment containing a simple view.
  */
@@ -27,6 +29,7 @@ public class DetailActivityFragment extends Fragment {
             ((TextView) rootView.findViewById(R.id.detail_text))
                     .setText((nameStr));
         }
+
 
         return rootView;
     }

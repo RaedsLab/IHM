@@ -28,5 +28,7 @@ dependencies {
     compile 'com.google.android.gms:play-services:8.1.0'
     ////
     compile "com.daimajia.swipelayout:library:1.2.0@aar"
+    //
+
 
 }
