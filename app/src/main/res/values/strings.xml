@@ -28,4 +28,7 @@
     <string name="title_activity_detail">Detail</string>
     <string name="title_activity_main2">Main2Activity</string>
 
+
+    <string name="heading_dismissable_views">Simple Views</string>
+    <string name="heading_dismissable_list_view">ListView</string>
 </resources>

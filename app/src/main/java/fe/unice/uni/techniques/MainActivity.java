@@ -12,11 +12,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -31,12 +35,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     private float initialY;
     private boolean isfirstRun = true;
-    private float yThreshold = 1;
+    private float yThreshold = 2;
+
+    private boolean isReternedToOriginalPosition = true;
+    private int reachedScrollPosition = 0;
+    // SWIPE
+
 
     ///Accel
     private SensorManager senSensorManager;
     private Sensor senAccelerometer;
-    private long lastUpdate = 0;
+    private long lastUpdate, lastScroll = 0;
     private float last_x, last_y, last_z;
     private static final int SHAKE_THRESHOLD = 600;
     //
@@ -63,7 +72,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         listView.setOnItemClickListener(this);
 
         ///ACCEL
-        senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        senSensorManager = (SensorManager)
+
+                getSystemService(Context.SENSOR_SERVICE);
+
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
@@ -76,13 +88,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         */
         // listView.smoothScrollToPositionFromTop(position + 5, 0, 500);
 
-
         ////
         Intent intent = new Intent(this, DetailActivity.class)
                 .putExtra(Intent.EXTRA_TEXT, ((TextView) view).getText());
-
         startActivity(intent);
-        ////
     }
 
     protected void onPause() {
@@ -121,21 +130,30 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
 
 
-                if (Math.abs(initialY - last_y) > yThreshold) {
+                Log.d("ACCEL", "INIT : " + initialY + " Diff : " + (Math.abs(initialY - last_y)));
 
-                    if (initialY - last_y > 0) {
-                        if (listView.canScrollList(1)) {
-                            initScrollPos += 1;
-                            Log.d("ACCEL", "+1 | POS " + initScrollPos);
+
+                if ((Math.abs(initialY - last_y) > yThreshold)) {
+                    if (isReternedToOriginalPosition && (curTime - lastScroll) > 100) {
+                        lastScroll = curTime;
+
+                        if (initialY - last_y > 0) {
+                            if (listView.canScrollList(1)) {
+                                initScrollPos += 3;
+                                Log.d("ACCEL", "+3 | POS " + initScrollPos);
+                            }
+                        } else {
+                            if (listView.canScrollList(-1)) {
+                                initScrollPos -= 3;
+                                Log.d("ACCEL", "-3 | POS " + initScrollPos);
+                            }
                         }
-                    } else {
-                        if (listView.canScrollList(-1)) {
-                            initScrollPos -= 1;
-                            Log.d("ACCEL", "-1 | POS " + initScrollPos);
-                        }
+                        listView.smoothScrollToPositionFromTop(initScrollPos, 0, 100);
                     }
-
-                    listView.smoothScrollToPositionFromTop(initScrollPos, 0, 100);
+                    isReternedToOriginalPosition = false;
+                } else {
+                    Log.d("ACCEL", "NOT SCROLLING");
+                    isReternedToOriginalPosition = true;
                 }
 
             }

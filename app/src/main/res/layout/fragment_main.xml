@@ -10,10 +10,12 @@
     tools:showIn="@layout/activity_main">
 
     <ListView
+        android:padding="10dp"
         android:id="@+id/namesList"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/colorAccent"
-        android:padding="10dp" />
+        />
+
 
 </RelativeLayout>
