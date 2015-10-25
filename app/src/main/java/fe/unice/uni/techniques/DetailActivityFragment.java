@@ -36,8 +36,8 @@ public class DetailActivityFragment extends Fragment {
 
 
         // Enable Local Datastore.
-        Parse.enableLocalDatastore(getActivity());
-        Parse.initialize(getActivity(), "FIH7TxNEMBdwRjqMMFbU6MPKisRtch5MNx4wsJ3C", "srmPIy9DK1SV4u3m2XsGFZSy8MSR3sTJp9rL7oxk");
+        //   Parse.enableLocalDatastore(getActivity());
+        //   Parse.initialize(getActivity(), "FIH7TxNEMBdwRjqMMFbU6MPKisRtch5MNx4wsJ3C", "srmPIy9DK1SV4u3m2XsGFZSy8MSR3sTJp9rL7oxk");
 
 
         Intent intent = getActivity().getIntent();
@@ -76,11 +76,11 @@ public class DetailActivityFragment extends Fragment {
                         @TODO : set detail_text to "DELETED"
                          */
                         //PARSE
-                        ParseObject testObject = new ParseObject("Interractions");
-                        testObject.put("time", duration);
-                        testObject.put("method", "click");
+                        // ParseObject testObject = new ParseObject("Interractions");
+                        // testObject.put("time", duration);
+                        //testObject.put("method", "click");
 
-                        testObject.saveInBackground();
+                        // testObject.saveInBackground();
                         ///
 
                         Toast.makeText(getActivity(), "Congrats, it only took you " + durationStr + "!",
