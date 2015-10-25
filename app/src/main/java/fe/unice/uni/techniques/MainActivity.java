@@ -12,15 +12,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.parse.Parse;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -62,6 +61,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -128,7 +128,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         ////
         Intent intent = new Intent(this, DetailActivity.class)
-                .putExtra(Intent.EXTRA_TEXT, ((TextView) view).getText() + ":" + startTime+":"+randomName);
+                .putExtra(Intent.EXTRA_TEXT, ((TextView) view).getText() + ":" + startTime + ":" + randomName);
         startActivity(intent);
     }
 
