@@ -34,7 +34,6 @@ public class DetailActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
-
         // Enable Local Datastore.
         //   Parse.enableLocalDatastore(getActivity());
         //   Parse.initialize(getActivity(), "FIH7TxNEMBdwRjqMMFbU6MPKisRtch5MNx4wsJ3C", "srmPIy9DK1SV4u3m2XsGFZSy8MSR3sTJp9rL7oxk");

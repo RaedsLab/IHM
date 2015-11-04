@@ -13,7 +13,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        tools:context=".ListViewAnimations">
 
         <TextView
             android:id="@+id/txtInstructions"
@@ -29,12 +30,27 @@
             android:layout_centerHorizontal="true"
             android:text="Start" />
 
-        <ListView
-            android:id="@+id/namesList"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:background="@color/colorAccent"
-            android:padding="10dp" />
+        
+        <view
+            android:id="@+id/listViewBackground"
+            class="fe.unice.uni.techniques.BackgroundContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/namesList"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@color/colorAccent"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:padding="10dp"
+
+                />
+
+        </view>
+
+
     </LinearLayout>
 
 
