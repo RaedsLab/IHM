@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         /// SWIPE
         mBackgroundContainer = (BackgroundContainer) findViewById(R.id.listViewBackground);
         listView = (ListView) findViewById(R.id.namesList);
+        listView.setOnItemClickListener(this);
+
 
         android.util.Log.d("Debug", "d=" + listView.getDivider());
         final ArrayList<String> namesList = new ArrayList<String>();
@@ -362,8 +365,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         // listView.smoothScrollToPositionFromTop(position + 5, 0, 500);
 
         ////
+        String name = mAdapter.getItem(position);
+
         Intent intent = new Intent(this, DetailActivity.class)
-                .putExtra(Intent.EXTRA_TEXT, ((TextView) view).getText() + ":" + startTime + ":" + randomName);
+                .putExtra(Intent.EXTRA_TEXT, name + ":" + startTime + ":" + randomName);
         startActivity(intent);
     }
 

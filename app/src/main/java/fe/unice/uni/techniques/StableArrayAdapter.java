@@ -59,4 +59,14 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
         return view;
     }
 
+
+    @Override
+    public boolean areAllItemsEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled(int arg0) {
+        return true;
+    }
 }

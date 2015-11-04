@@ -9,7 +9,6 @@
     tools:context=".MainActivityFragment"
     tools:showIn="@layout/activity_main">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,7 +29,6 @@
             android:layout_centerHorizontal="true"
             android:text="Start" />
 
-        
         <view
             android:id="@+id/listViewBackground"
             class="fe.unice.uni.techniques.BackgroundContainer"
@@ -44,14 +42,7 @@
                 android:background="@color/colorAccent"
                 android:divider="@null"
                 android:dividerHeight="0dp"
-                android:padding="10dp"
-
-                />
-
+                android:padding="10dp" />
         </view>
-
-
     </LinearLayout>
-
-
 </RelativeLayout>
