@@ -45,8 +45,8 @@ public class BackgroundContainer extends FrameLayout {
     }
 
     private void init() {
-        mShadowedBackground =
-                getContext().getResources().getDrawable(R.drawable.shadowed_background);
+      /*  mShadowedBackground =
+                getContext().getResources().getDrawable(R.drawable.shadowed_background);*/
     }
 
     public void showBackground(int top, int bottom) {
@@ -66,11 +66,11 @@ public class BackgroundContainer extends FrameLayout {
     protected void onDraw(Canvas canvas) {
         if (mShowing) {
             if (mUpdateBounds) {
-                mShadowedBackground.setBounds(0, 0, getWidth(), mOpenAreaHeight);
+             //   mShadowedBackground.setBounds(0, 0, getWidth(), mOpenAreaHeight);
             }
             canvas.save();
             canvas.translate(0, mOpenAreaTop);
-            mShadowedBackground.draw(canvas);
+            //mShadowedBackground.draw(canvas);
             canvas.restore();
         }
     }

@@ -21,6 +21,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.Parse;
 
@@ -29,6 +30,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SensorEventListener {
 
@@ -130,14 +132,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startTime = System.currentTimeMillis();
             }
         });
-
-
-        //SET ARRAY ADAPTER
-        //adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, names);
-
-        ///set names in listView Via adapter
-        //   listView = (ListView) findViewById(R.id.namesList);
-        // listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(this);
 
@@ -275,7 +269,34 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         // Delete the item from the adapter
         int position = listview.getPositionForView(viewToRemove);
-        mAdapter.remove(mAdapter.getItem(position));
+
+        /// CHECK IF SWIPED THE RIGHT NAME
+        if (mAdapter.getItem(position).toString() == randomName.toString()) {
+            // FOUND THE RIGHT NAME => DELETE
+            mAdapter.remove(mAdapter.getItem(position));
+            Log.d("SWIPE", "Removed : " + mAdapter.getItem(position).toString() + " # " + position);
+
+
+            // CHECK TIME IT TOOK TO COMPLETE
+            long curTime = System.currentTimeMillis();
+            long duration = curTime - startTime;
+
+            String durationStr = String.format("%02d min, %02d sec",
+                    TimeUnit.MILLISECONDS.toMinutes(duration),
+                    TimeUnit.MILLISECONDS.toSeconds(duration) -
+                            TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(duration))
+            );
+
+            Toast.makeText(this, "Congrats, it only took you " + durationStr + "!",
+                    Toast.LENGTH_LONG).show();
+
+            listView.setVisibility(View.GONE);
+
+        } else {
+            Toast.makeText(this, "Deleted wrong person, try again!",
+                    Toast.LENGTH_SHORT).show();
+        }
+
 
         final ViewTreeObserver observer = listview.getViewTreeObserver();
         observer.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
