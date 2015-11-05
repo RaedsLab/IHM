@@ -31,4 +31,7 @@
 
     <string name="heading_dismissable_views">Simple Views</string>
     <string name="heading_dismissable_list_view">ListView</string>
+    <string name="title_activity_first">First</string>
+
+    <string name="hello_world">Hello world!</string>
 </resources>

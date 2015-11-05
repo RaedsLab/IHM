@@ -35,7 +35,7 @@ import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener, SensorEventListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener {
 
     ListView listView;
     ArrayAdapter<String> adapter;
@@ -98,8 +98,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         /// SWIPE
         mBackgroundContainer = (BackgroundContainer) findViewById(R.id.listViewBackground);
         listView = (ListView) findViewById(R.id.namesList);
-        listView.setOnItemClickListener(this);
-
 
         android.util.Log.d("Debug", "d=" + listView.getDivider());
         final ArrayList<String> namesList = new ArrayList<String>();
@@ -137,8 +135,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 startTime = System.currentTimeMillis();
             }
         });
-
-        listView.setOnItemClickListener(this);
 
         ///ACCEL
         senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -389,21 +385,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void goToDetails(String clikedName) {
         Intent intent = new Intent(this, DetailActivity.class)
                 .putExtra(Intent.EXTRA_TEXT, clikedName + ":" + startTime + ":" + randomName);
-        startActivity(intent);
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {
-        /*Toast.makeText(getApplicationContext(), ((TextView) view).getText() + "",
-                Toast.LENGTH_SHORT).show();
-        */
-        // listView.smoothScrollToPositionFromTop(position + 5, 0, 500);
-
-        ////
-        String name = mAdapter.getItem(position);
-
-        Intent intent = new Intent(this, DetailActivity.class)
-                .putExtra(Intent.EXTRA_TEXT, name + ":" + startTime + ":" + randomName);
         startActivity(intent);
     }
 
