@@ -81,12 +81,30 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private static final int MOVE_DURATION = 150;
 
 
+    private boolean imBack = false;
+
+
     ////
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /// CHECK IF GETTING BACK FROM ACTIVITY
+        Intent intent = this.getIntent();
+        if (intent != null && intent.hasExtra(Intent.EXTRA_TEXT)) {
+            String intenStr = intent.getStringExtra(Intent.EXTRA_TEXT);
+            String[] values = intenStr.split(":");
+
+            randomName = values[0];
+            startTime = Long.parseLong(values[1], 10);
+
+            android.util.Log.d("I'm BACK !! ", "name " + randomName + " startTime " + startTime);
+            imBack = true;
+        }
+        /////
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -107,41 +125,55 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         mAdapter = new StableArrayAdapter(this, R.layout.opaque_text_view, namesList,
                 mTouchListener, this);
         listView.setAdapter(mAdapter);
+        final Button clickButton = (Button) findViewById(R.id.btnStart);
 
 
-        /// INSTRUCTIONS
-        int idx = new Random().nextInt(names.length);
-        randomName = (names[idx]);
-        instructionText = "You need to find and delete '" + randomName + "' from the contact list. \n";
-        // if lucky get instructions
-        if (new Random().nextInt() % 2 == 0) {
-            hadInstructions = true;
-            instructionText += "You can scroll, or tilt the device to go through the list. \n";
-            instructionText += "You can click or swipe a contact name to delete it.\n";
+        if (imBack == false) {
+            // SI 1ere fois cherche un nom random
+            int idx = new Random().nextInt(names.length);
+            randomName = (names[idx]);
+            instructionText = "You need to find and delete '" + randomName + "' from the contact list. \n";
+            // if lucky get instructions
+            if (new Random().nextInt() % 2 == 0) {
+                hadInstructions = true;
+                instructionText += "You can scroll, or tilt the device to go through the list. \n";
+                instructionText += "You can click or swipe a contact name to delete it.\n";
+            }
+
+                TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+                instructionsTextView.setText(instructionText);
+
+                listView.setVisibility(View.GONE);
+
+
+            clickButton.setOnClickListener(new View.OnClickListener() {
+                                               @Override
+                                               public void onClick(View v) {
+                                                   TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+                                                   instructionsTextView.setVisibility(View.GONE);
+                                                   clickButton.setVisibility(View.GONE);
+                                                   listView.setVisibility(View.VISIBLE);
+                                                   startTime = System.currentTimeMillis();
+                                               }
+                                           }
+
+            );
+        } else {
+            // I'm getting back to the list
+            TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+            instructionsTextView.setVisibility(View.GONE);
+            clickButton.setVisibility(View.GONE);
+            listView.setVisibility(View.VISIBLE);
         }
 
-        TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-        instructionsTextView.setText(instructionText);
-
-
-        final Button clickButton = (Button) findViewById(R.id.btnStart);
-        clickButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-                instructionsTextView.setVisibility(View.GONE);
-                clickButton.setVisibility(View.GONE);
-                listView.setVisibility(View.VISIBLE);
-                startTime = System.currentTimeMillis();
-            }
-        });
+        listView.setOnItemClickListener(this);
 
         ///ACCEL
-        senSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        senSensorManager = (SensorManager)
+
+                getSystemService(Context.SENSOR_SERVICE);
 
         senAccelerometer = senSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-
-        listView.setVisibility(View.GONE); // or View.INVISIBLE as Jason Leung wrote
 
         senSensorManager.registerListener(this, senAccelerometer, SensorManager.SENSOR_DELAY_NORMAL);
 
