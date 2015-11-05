@@ -103,20 +103,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             android.util.Log.d("I'm BACK !! ", "name " + randomName + " startTime " + startTime);
             imBack = true;
-        } else if ( intent!= null && intent.hasExtra(Intent.EXTRA_REFERRER_NAME)) {
+        } else if (intent != null && intent.hasExtra(Intent.EXTRA_REFERRER_NAME)) {
             String type = intent.getStringExtra(Intent.EXTRA_REFERRER_NAME);
             android.util.Log.d("Appel : ", type);
-            switch (type) {
-                case "essai":
-                    setEssaiList();
-                    break;
-                case "test1":
-                    setTest1List();
-                    break;
-                case "test2":
-                    break;
-
-            }
+            setList(type);
         }
 
         if (imBack) {
@@ -462,7 +452,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     }
 
-    private void setEssaiList() {
+    private void setList(String type) {
 
         //GET ALL NAMES FROM stings.xml
         names = getResources().getStringArray(R.array.names_array);
@@ -484,95 +474,51 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         listView.setAdapter(mAdapter);
         final Button clickButton = (Button) findViewById(R.id.btnStart);
 
-            // SI 1ere fois cherche un nom random
-            int idx = new Random().nextInt(names.length);
-            randomName = (names[idx]);
-            instructionText = "You need to find and delete '" + randomName + "' from the contact list. \n";
-            // if lucky get instructions
-            if (new Random().nextInt() % 2 == 0) {
-                hadInstructions = true;
-                instructionText += "You can scroll, or tilt the device to go through the list. \n";
-                instructionText += "You can click or swipe a contact name to delete it.\n";
-            }
+        // SI 1ere fois cherche un nom random
+        int idx;
+        switch (type) {
+            case "essai":
+                idx = new Random().nextInt(names.length);
+                break;
+            case "test1":
+                idx = names.length / 2 + new Random().nextInt(2) - 1;
+                break;
+            case "test2":
+                idx = names.length / 2 + new Random().nextInt(6) - 3;
+                break;
+            default:
+                idx = new Random().nextInt(names.length);
+                break;
+        }
 
-            TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-            instructionsTextView.setText(instructionText);
+        randomName = (names[idx]);
+        instructionText = "You need to find and delete '" + randomName + "' from the contact list. \n";
+        // if lucky get instructions
+        if (new Random().nextInt() % 2 == 0) {
+            hadInstructions = true;
+            instructionText += "You can scroll, or tilt the device to go through the list. \n";
+            instructionText += "You can click or swipe a contact name to delete it.\n";
+        }
 
-            listView.setVisibility(View.GONE);
+        TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+        instructionsTextView.setText(instructionText);
+
+        listView.setVisibility(View.GONE);
 
 
-            clickButton.setOnClickListener(new View.OnClickListener() {
-                                               @Override
-                                               public void onClick(View v) {
-                                                   TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-                                                   instructionsTextView.setVisibility(View.GONE);
-                                                   clickButton.setVisibility(View.GONE);
-                                                   listView.setVisibility(View.VISIBLE);
-                                                   startTime = System.currentTimeMillis();
-                                               }
+        clickButton.setOnClickListener(new View.OnClickListener() {
+                                           @Override
+                                           public void onClick(View v) {
+                                               TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
+                                               instructionsTextView.setVisibility(View.GONE);
+                                               clickButton.setVisibility(View.GONE);
+                                               listView.setVisibility(View.VISIBLE);
+                                               startTime = System.currentTimeMillis();
                                            }
+                                       }
 
-            );
+        );
 
     }
 
-    private void setTest1List() {
-        //GET ALL NAMES FROM stings.xml
-        names = getResources().getStringArray(R.array.names_array);
-        Collections.shuffle(Arrays.asList(names));
-
-        /// SWIPE
-        mBackgroundContainer = (BackgroundContainer) findViewById(R.id.listViewBackground);
-        listView = (ListView) findViewById(R.id.namesList);
-
-        android.util.Log.d("Debug", "d=" + listView.getDivider());
-        final ArrayList<String> namesList = new ArrayList<String>();
-        for (int i = 0; i < names.length; ++i) {
-            namesList.add(names[i]);
-        }
-
-        mAdapter = new StableArrayAdapter(this, R.layout.opaque_text_view, namesList,
-                mTouchListener, this);
-        listView.setAdapter(mAdapter);
-        final Button clickButton = (Button) findViewById(R.id.btnStart);
-
-
-        if (imBack == false) {
-            // SI 1ere fois cherche un nom random
-            int idx = new Random().nextInt(names.length);
-            randomName = (names[idx]);
-            instructionText = "You need to find and delete '" + randomName + "' from the contact list. \n";
-            // if lucky get instructions
-            if (new Random().nextInt() % 2 == 0) {
-                hadInstructions = true;
-                instructionText += "You can scroll, or tilt the device to go through the list. \n";
-                instructionText += "You can click or swipe a contact name to delete it.\n";
-            }
-
-            TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-            instructionsTextView.setText(instructionText);
-
-            listView.setVisibility(View.GONE);
-
-
-            clickButton.setOnClickListener(new View.OnClickListener() {
-                                               @Override
-                                               public void onClick(View v) {
-                                                   TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-                                                   instructionsTextView.setVisibility(View.GONE);
-                                                   clickButton.setVisibility(View.GONE);
-                                                   listView.setVisibility(View.VISIBLE);
-                                                   startTime = System.currentTimeMillis();
-                                               }
-                                           }
-
-            );
-        } else {
-            // I'm getting back to the list
-            TextView instructionsTextView = (TextView) findViewById(R.id.txtInstructions);
-            instructionsTextView.setVisibility(View.GONE);
-            clickButton.setVisibility(View.GONE);
-            listView.setVisibility(View.VISIBLE);
-        }
-    }
 }
