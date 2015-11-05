@@ -166,8 +166,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             listView.setVisibility(View.VISIBLE);
         }
 
-        listView.setOnItemClickListener(this);
-
         ///ACCEL
         senSensorManager = (SensorManager)
 

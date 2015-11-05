@@ -34,4 +34,5 @@
     <string name="title_activity_first">First</string>
 
     <string name="hello_world">Hello world!</string>
+    <string name="title_activity_first1">FirstActivity1</string>
 </resources>
