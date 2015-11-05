@@ -28,8 +28,10 @@ import com.parse.Parse;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
@@ -105,7 +107,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             namesList.add(names[i]);
         }
         mAdapter = new StableArrayAdapter(this, R.layout.opaque_text_view, namesList,
-                mTouchListener);
+                mTouchListener, this);
         listView.setAdapter(mAdapter);
 
 
@@ -158,14 +160,20 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         float mDownX;
         private int mSwipeSlop = -1;
 
+        private static final int MAX_CLICK_DURATION = 100;
+        private long startClickTime;
+
         @Override
         public boolean onTouch(final View v, MotionEvent event) {
+
             if (mSwipeSlop < 0) {
                 mSwipeSlop = ViewConfiguration.get(MainActivity.this).
                         getScaledTouchSlop();
             }
             switch (event.getAction()) {
                 case MotionEvent.ACTION_DOWN:
+                    startClickTime = Calendar.getInstance().getTimeInMillis();
+
                     if (mItemPressed) {
                         // Multi-item swipes not handled
                         return false;
@@ -179,6 +187,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                     mItemPressed = false;
                     break;
                 case MotionEvent.ACTION_MOVE: {
+
                     float x = event.getX() + v.getTranslationX();
                     float deltaX = x - mDownX;
                     float deltaXAbs = Math.abs(deltaX);
@@ -196,6 +205,25 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 }
                 break;
                 case MotionEvent.ACTION_UP: {
+
+                    long clickDuration = Calendar.getInstance().getTimeInMillis() - startClickTime;
+                    if (clickDuration < MAX_CLICK_DURATION) {
+                        //click event has occurred
+
+                        Log.d("Click ", "This is a click- ");
+                        if (v instanceof TextView) {
+                            TextView textView = (TextView) v;
+                            String chosenName = textView.getText().toString();
+                            goToDetails(chosenName);
+                            //Do your stuff
+                        } else {
+                            goToDetails("Ali");
+
+                        }
+
+
+                    }
+
                     // User let go - figure out whether to animate the view out, or back into place
                     if (mSwiping) {
                         float x = event.getX() + v.getTranslationX();
@@ -249,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 default:
                     return false;
             }
+
             return true;
         }
     };
@@ -356,6 +385,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         });
     }
 
+
+    public void goToDetails(String clikedName) {
+        Intent intent = new Intent(this, DetailActivity.class)
+                .putExtra(Intent.EXTRA_TEXT, clikedName + ":" + startTime + ":" + randomName);
+        startActivity(intent);
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapter, View view, int position, long id) {

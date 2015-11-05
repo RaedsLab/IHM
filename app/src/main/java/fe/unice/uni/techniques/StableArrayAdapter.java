@@ -16,10 +16,13 @@
 
 package fe.unice.uni.techniques;
 
+import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import java.util.HashMap;
 import java.util.List;
@@ -28,10 +31,12 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
 
     HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
     View.OnTouchListener mTouchListener;
+    MainActivity activity;
 
     public StableArrayAdapter(Context context, int textViewResourceId,
-                              List<String> objects, View.OnTouchListener listener) {
+                              List<String> objects, View.OnTouchListener listener, Activity activity) {
         super(context, textViewResourceId, objects);
+        this.activity = (MainActivity) activity;
         mTouchListener = listener;
         for (int i = 0; i < objects.size(); ++i) {
             mIdMap.put(objects.get(i), i);
@@ -50,11 +55,16 @@ public class StableArrayAdapter extends ArrayAdapter<String> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(int position, View convertView, final ViewGroup parent) {
+
         View view = super.getView(position, convertView, parent);
+
         if (view != convertView) {
             // Add touch listener to every new view to track swipe motion
+            Log.d("POS", "POS : " + position);
+
             view.setOnTouchListener(mTouchListener);
+
         }
         return view;
     }
