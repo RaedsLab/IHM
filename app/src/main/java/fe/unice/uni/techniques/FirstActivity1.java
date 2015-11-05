@@ -20,7 +20,19 @@ public class FirstActivity1 extends AppCompatActivity {
 
     public void startEssai(View view) {
         Intent intent = new Intent(this, MainActivity.class)
-                .putExtra(Intent.EXTRA_TEXT, "essai");
+                .putExtra(Intent.EXTRA_REFERRER_NAME, "essai");
+        startActivity(intent);
+    }
+
+    public void startTest1(View view) {
+        Intent intent = new Intent(this, MainActivity.class)
+                .putExtra(Intent.EXTRA_REFERRER_NAME, "test1");
+        startActivity(intent);
+    }
+
+    public void startTest2(View view) {
+        Intent intent = new Intent(this, MainActivity.class)
+                .putExtra(Intent.EXTRA_REFERRER_NAME, "test2");
         startActivity(intent);
     }
 

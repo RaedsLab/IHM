@@ -14,11 +14,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test 1"
-        android:id="@+id/test1Btn" />
+        android:id="@+id/test1Btn"
+        android:onClick="startTest1"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test 2"
-        android:id="@+id/test2Btn" />
+        android:id="@+id/test2Btn"
+        android:onClick="startTest2"/>
 </LinearLayout>
