@@ -35,6 +35,8 @@ public class DetailActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
 
+
+
         // Enable Local Datastore.
         //   Parse.enableLocalDatastore(getActivity());
         //   Parse.initialize(getActivity(), "FIH7TxNEMBdwRjqMMFbU6MPKisRtch5MNx4wsJ3C", "srmPIy9DK1SV4u3m2XsGFZSy8MSR3sTJp9rL7oxk");
@@ -115,6 +117,10 @@ public class DetailActivityFragment extends Fragment {
 
                     // handle back button
                     Log.d("BACK", "BACK CLICKED");
+
+                    Intent intent = new Intent(getActivity(), MainActivity.class)
+                            .putExtra(Intent.EXTRA_TEXT, targetName + ":" + startTime);
+                    startActivity(intent);
 
                     return true;
 
